@@ -4,20 +4,47 @@ using UnityEngine;
 
 public class ArmsMovement : MonoBehaviour
 {
+    [SerializeField] Transform weaponContainer;
     [SerializeField] Transform leftArmTarget;
     [SerializeField] Transform rightArmTarget;
-    [SerializeField] Transform rightArmGrip;
-    [SerializeField] Transform leftArmGrip;
-    [SerializeField] Transform weaponTransform;
     [SerializeField] float rotationSpeed = 5f;
+
+    [SerializeField] GameObject leftArmSolver;
+    [SerializeField] BoxCollider2D[] armColliders;
+    [SerializeField] Rigidbody2D[] armRigidbodies;
+    [SerializeField] HingeJoint2D[] armHingeJoints;
+
+    private Transform leftArmGrip;
+    private Transform weaponTransform;
     private Vector2 cursorPosition;
+    private Vector2 lookDirection;
+
+    public Vector2 LookDirection => lookDirection;
+
+
+
+    private void OnEnable()
+    {
+        WeaponInventory.OnWeaponSet += SetArmGrips;
+    }
+
+
+
+    private void OnDisable()
+    {
+        WeaponInventory.OnWeaponSet -= SetArmGrips;
+    }
+
 
 
     private void MoveArms()
     {
         cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        leftArmTarget.position = leftArmGrip.position;
+        if (leftArmGrip != null)
+        {
+            leftArmTarget.position = leftArmGrip.position;
+        }
         rightArmTarget.position = cursorPosition;
     }
 
@@ -25,10 +52,10 @@ public class ArmsMovement : MonoBehaviour
     private void RotateWeapon()
     {
 
-        Vector2 direction = ((Vector3)cursorPosition - transform.position).normalized;
+        lookDirection = ((Vector3)cursorPosition - transform.position).normalized;
 
 
-        if (direction.x < 0)
+        if (lookDirection.x < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
@@ -38,7 +65,7 @@ public class ArmsMovement : MonoBehaviour
         }
 
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
         weaponTransform.rotation = Quaternion.Slerp(weaponTransform.rotation, rotation, rotationSpeed * Time.deltaTime);
     }
@@ -51,11 +78,29 @@ public class ArmsMovement : MonoBehaviour
     }
 
 
-
-    public void SetArmGrips(Transform rightArmGrip, Transform leftArmGrip)
+    private void ToggleLeftArmRagdoll(bool isLeftGripFree)
     {
-        this.rightArmGrip = rightArmGrip;
-        this.leftArmGrip = leftArmGrip;
+        foreach (Collider2D collider in armColliders)
+        {
+            collider.enabled = isLeftGripFree;
+        }
+        foreach (Rigidbody2D rb2d in armRigidbodies)
+        {
+            rb2d.simulated = isLeftGripFree;
+        }
+        foreach (HingeJoint2D hingeJoint in armHingeJoints)
+        {
+            hingeJoint.enabled = isLeftGripFree;
+        }
+        leftArmSolver.SetActive(!isLeftGripFree);
+    }
+
+
+    public void SetArmGrips(Weapon weapon)
+    {
+        ToggleLeftArmRagdoll(weapon.LeftArmGrip == null);
+        weaponTransform = weapon.transform;
+        leftArmGrip = weapon.LeftArmGrip;
     }
 
 }

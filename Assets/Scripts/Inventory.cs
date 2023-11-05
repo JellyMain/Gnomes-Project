@@ -6,8 +6,10 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] int inventoryCapacity;
     [SerializeField] InventorySlot slotPrefab;
+    [SerializeField] GameObject inventroyUI;
     [SerializeField] Transform slotsContainer;
     private List<InventorySlot> itemSlotsList;
+    private bool isInventoryActive = false;
 
 
     private void Awake()
@@ -15,6 +17,17 @@ public class Inventory : MonoBehaviour
         itemSlotsList = new List<InventorySlot>();
     }
 
+
+    private void OnEnable()
+    {
+        GameInput.OnInventoryToggledAction += ToggleInventory;
+    }
+
+
+    private void OnDisable()
+    {
+        GameInput.OnInventoryToggledAction -= ToggleInventory;
+    }
 
 
     private void Start()
@@ -46,16 +59,41 @@ public class Inventory : MonoBehaviour
     }
 
 
+
+    private void UpdateInventory()
+    {
+        foreach (InventorySlot slot in itemSlotsList)
+        {
+            slot.UpdateSlot();
+        }
+    }
+
+
     public void AddItem(ItemSO itemToAdd)
     {
         foreach (InventorySlot slot in itemSlotsList)
         {
+            if (!slot.IsEmpty() && itemToAdd == slot.Item && itemToAdd.IsStackable && slot.StackCount < itemToAdd.MaxStackSize)
+            {
+                slot.StackItem();
+                return;
+            }
+
             if (slot.IsEmpty())
             {
                 slot.SetItem(itemToAdd);
-                break;
+                return;
             }
         }
+    }
+
+
+
+    private void ToggleInventory()
+    {
+        isInventoryActive = !isInventoryActive;
+        inventroyUI.SetActive(isInventoryActive);
+        UpdateInventory();
     }
 
 }

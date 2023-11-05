@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    [SerializeField] float lerpFactor = 5;
     [SerializeField] GameInput gameInput;
     [SerializeField] float moveSpeed;
     private Rigidbody2D rb2D;
@@ -24,7 +26,20 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         Vector2 moveVector = gameInput.GetNormilizedMovementInput();
-        rb2D.velocity = moveVector * moveSpeed;
+        rb2D.velocity = Vector2.Lerp(rb2D.velocity, moveVector * moveSpeed, lerpFactor * Time.deltaTime);
+
+        if (moveVector != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            transform.rotation = rotation;
+        }
+        else
+        {
+            transform.rotation = Quaternion.identity;
+        }
+
+
     }
 
 }

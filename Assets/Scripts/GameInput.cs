@@ -1,20 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
+    public static event Action OnInventoryToggledAction;
 
     private InputActions inputActions;
 
     private void Awake()
     {
         inputActions = new InputActions();
-        inputActions.Enable();
+        inputActions.Player.Enable();
+        inputActions.Player.ToggleInventory.performed += ToggleInvetnory;
     }
 
 
-
+    private void ToggleInvetnory(InputAction.CallbackContext obj)
+    {
+        OnInventoryToggledAction?.Invoke();
+    }
 
 
     public Vector2 GetNormilizedMovementInput()

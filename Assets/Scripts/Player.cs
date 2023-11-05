@@ -5,28 +5,36 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static event Action OnNewWeaponCollected;
-
+    [SerializeField] float maxHealth = 100;
+    private HP hp;
     private Inventory inventory;
-    private Weapon currentWeapon;
+    private ArmsMovement armsMovement;
+
+    public ArmsMovement ArmsMovement => armsMovement;
+    public HP Hp => hp;
+
+
+    public static Player Instance { get; private set; }
 
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        hp = new HP(maxHealth);
         inventory = GetComponent<Inventory>();
+        armsMovement = GetComponent<ArmsMovement>();
     }
 
-
-
-    private void SetNewWeapon(Weapon newWeapon)
+    //Test
+    private void Update()
     {
-        currentWeapon = newWeapon;
-    }
-
-
-    public Weapon GetCurrentWeapon()
-    {
-        return currentWeapon;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            hp.TakeDamage(10);
+        }
     }
 
 
@@ -34,17 +42,11 @@ public class Player : MonoBehaviour
     {
         if (other.TryGetComponent(out Item item))
         {
-            if (inventory.hasEmptySlots())
+            if (inventory.hasEmptySlots() && item.CanBePicked)
             {
                 inventory.AddItem(item.ItemSO);
                 Destroy(other.gameObject);
             }
-        }
-
-
-        if (other.TryGetComponent(out Weapon weapon))
-        {
-            SetNewWeapon(weapon);
         }
     }
 }
