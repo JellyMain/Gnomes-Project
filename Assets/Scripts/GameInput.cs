@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class GameInput : MonoBehaviour
 {
     public static event Action OnInventoryToggledAction;
+    public static event Action OnAttackAction;
 
     private InputActions inputActions;
 
@@ -15,12 +16,19 @@ public class GameInput : MonoBehaviour
         inputActions = new InputActions();
         inputActions.Player.Enable();
         inputActions.Player.ToggleInventory.performed += ToggleInvetnory;
+        inputActions.Player.Attack.performed += Attack;
     }
 
 
     private void ToggleInvetnory(InputAction.CallbackContext obj)
     {
         OnInventoryToggledAction?.Invoke();
+    }
+
+
+    private void Attack(InputAction.CallbackContext obj)
+    {
+        OnAttackAction?.Invoke();
     }
 
 

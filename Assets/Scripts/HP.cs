@@ -7,6 +7,7 @@ public class HP
 {
     public event Action<float> OnDamaged;
     public event Action<float> OnHealed;
+    public event Action OnDead;
 
 
     private float maxHealth = 100;
@@ -30,7 +31,7 @@ public class HP
     }
 
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (currentHealth > 0)
         {
@@ -38,7 +39,6 @@ public class HP
             OnDamaged?.Invoke(currentHealth);
             if (currentHealth <= 0)
             {
-                currentHealth = 0;
                 Die();
             }
 
@@ -64,7 +64,8 @@ public class HP
 
     private void Die()
     {
-
+        OnDead?.Invoke();
+        currentHealth = 0;
     }
 
 }

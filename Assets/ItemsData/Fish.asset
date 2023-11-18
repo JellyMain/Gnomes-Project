@@ -15,3 +15,4 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: b399de0a852bcff47adc45449c491cc9, type: 3}
   isStackable: 1
   maxStackSize: 4
+  itemPrefab: {fileID: 8033669598853803511, guid: 340b5f3484ebc2940b34fc925d382519, type: 3}

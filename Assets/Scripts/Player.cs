@@ -5,13 +5,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+
     [SerializeField] float maxHealth = 100;
+    private Rigidbody2D rb2d;
     private HP hp;
     private Inventory inventory;
     private ArmsMovement armsMovement;
+    private WeaponInventory weaponInventory;
 
     public ArmsMovement ArmsMovement => armsMovement;
     public HP Hp => hp;
+    public Rigidbody2D Rb2d => rb2d;
 
 
     public static Player Instance { get; private set; }
@@ -23,10 +28,26 @@ public class Player : MonoBehaviour
         {
             Instance = this;
         }
-        hp = new HP(maxHealth);
+
+        rb2d = GetComponent<Rigidbody2D>();
+        weaponInventory = GetComponent<WeaponInventory>();
         inventory = GetComponent<Inventory>();
         armsMovement = GetComponent<ArmsMovement>();
+        hp = new HP(maxHealth);
     }
+
+
+    private void OnEnable()
+    {
+        GameInput.OnAttackAction += Attack;
+    }
+
+
+    private void OnDisable()
+    {
+        GameInput.OnAttackAction -= Attack;
+    }
+
 
     //Test
     private void Update()
@@ -35,6 +56,12 @@ public class Player : MonoBehaviour
         {
             hp.TakeDamage(10);
         }
+    }
+
+
+    private void Attack()
+    {
+        weaponInventory.CurrentWeapon.Attack();
     }
 
 

@@ -20,6 +20,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FishDrop
       objectReference: {fileID: 0}
+    - target: {fileID: 5340569163646049714, guid: 7898b1310ca07c94c8c621bc05e29c4d, type: 3}
+      propertyPath: m_Radius
+      value: 0.27391922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340569163646049714, guid: 7898b1310ca07c94c8c621bc05e29c4d, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5480551931882424663, guid: 7898b1310ca07c94c8c621bc05e29c4d, type: 3}
       propertyPath: m_Sprite
       value: 

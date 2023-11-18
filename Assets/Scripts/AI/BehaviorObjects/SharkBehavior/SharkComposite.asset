@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523ea8563284fd14bab7b543802acd41, type: 3}
+  m_Name: SharkComposite
+  m_EditorClassIdentifier: 
+  behaviors:
+  - {fileID: 11400000, guid: d56a41bc9b25ad44db6b147f2f091c43, type: 2}
+  - {fileID: 11400000, guid: 9e1128bd49045b8418ab492737652fcb, type: 2}
+  - {fileID: 11400000, guid: dcdfd2d3bbbf0434387cd8c7f42361a3, type: 2}
+  - {fileID: 11400000, guid: 3ddac6f5f6edc424ab26fd6182e7cd71, type: 2}
+  weights:
+  - 3
+  - 4
+  - 2
+  - 0.1

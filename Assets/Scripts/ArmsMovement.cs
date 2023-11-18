@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ArmsMovement : MonoBehaviour
 {
+    [SerializeField] WeaponInventory weaponInventory;
     [SerializeField] Transform weaponContainer;
     [SerializeField] Transform leftArmTarget;
     [SerializeField] Transform rightArmTarget;
@@ -18,6 +19,7 @@ public class ArmsMovement : MonoBehaviour
     private Transform weaponTransform;
     private Vector2 cursorPosition;
     private Vector2 lookDirection;
+
 
     public Vector2 LookDirection => lookDirection;
 
@@ -58,15 +60,17 @@ public class ArmsMovement : MonoBehaviour
         if (lookDirection.x < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
+            weaponInventory.CurrentWeapon.transform.localScale = new Vector3(-1, -1, 1);
         }
         else
         {
             transform.localScale = new Vector3(1, 1, 1);
+            weaponInventory.CurrentWeapon.transform.localScale = new Vector3(1, 1, 1);
         }
 
 
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         weaponTransform.rotation = Quaternion.Slerp(weaponTransform.rotation, rotation, rotationSpeed * Time.deltaTime);
     }
 
@@ -84,14 +88,17 @@ public class ArmsMovement : MonoBehaviour
         {
             collider.enabled = isLeftGripFree;
         }
+
         foreach (Rigidbody2D rb2d in armRigidbodies)
         {
             rb2d.simulated = isLeftGripFree;
         }
+
         foreach (HingeJoint2D hingeJoint in armHingeJoints)
         {
             hingeJoint.enabled = isLeftGripFree;
         }
+
         leftArmSolver.SetActive(!isLeftGripFree);
     }
 

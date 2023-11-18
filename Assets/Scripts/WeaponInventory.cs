@@ -11,6 +11,8 @@ public class WeaponInventory : MonoBehaviour
     [SerializeField] Weapon startWeapon;
     private Weapon currentWeapon;
 
+    public Weapon CurrentWeapon => currentWeapon;
+
 
     private void Start()
     {
@@ -31,6 +33,7 @@ public class WeaponInventory : MonoBehaviour
         currentWeapon = weapon;
         weapon.transform.SetParent(weaponContainer);
         weapon.transform.localPosition = Vector3.zero;
+        weapon.TogglePickUpCollider(false);
         OnWeaponSet?.Invoke(currentWeapon);
     }
 

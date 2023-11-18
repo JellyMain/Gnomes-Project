@@ -187,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotImageObject: {fileID: 7934144126452638855}
   quantityText: {fileID: 2963914058609651290}
+  pushForce: 5
 --- !u!1 &7934144126452638855
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,8 +222,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.000022888184, y: -0.000022888184}
+  m_SizeDelta: {x: -74.0513, y: -74.0513}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &163150730074353258
 CanvasRenderer:
