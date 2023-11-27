@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2461828998828478172}
   - component: {fileID: 5427942460832340596}
-  - component: {fileID: 3175553011413742675}
   - component: {fileID: 5682556744025629845}
+  - component: {fileID: 716912561320190304}
   m_Layer: 0
   m_Name: Shark
   m_TagString: Untagged
@@ -62,21 +62,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3175553011413742675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5866158595673025461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08dc8473bdab2734e8b3be9c64752e9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!70 &5682556744025629845
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -112,6 +97,37 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.18}
   m_Size: {x: 5.32, y: 1.43}
   m_Direction: 1
+--- !u!114 &716912561320190304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5866158595673025461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18f499f641411e44beaff35436e4517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contextBehaviour: {fileID: 11400000, guid: 9600ec4a74ede324bb845995a30ca58a, type: 2}
+  filter: {fileID: 0}
+  neighborRadius: 6.97
+  avoidanceRadiusMultiplier: 0.5
+  standartMoveSpeed: 2
+  maxMoveSpeed: 10
+  rotationSpeed: 1.5
+  lootItem: {fileID: 8033669598853803511, guid: 340b5f3484ebc2940b34fc925d382519, type: 3}
+  lootItemPushForce: 5
+  maxHp: 50
+  damage: 10
+  attackCooldown: 1
+  targetPushForce: 40
+  attackCollider: {fileID: 0}
+  attackRadiusMultiplier: 0.81
+  bitePushForce: 40
+  searchAreaBottomWidth: 2.14
+  searchAreaUpperWidth: 17.92
+  searchAreaHeight: 17.5
 --- !u!1 &7868796861582207639
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +139,7 @@ GameObject:
   - component: {fileID: 4421322770109594576}
   - component: {fileID: 3229096928277122515}
   - component: {fileID: 6590241491646396925}
+  - component: {fileID: 5322585363574565087}
   m_Layer: 0
   m_Name: SharkVisuals
   m_TagString: Untagged
@@ -218,3 +235,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5322585363574565087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7868796861582207639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae5845db3b2a42468cd6a8b615f4f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeTime: 2

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [SerializeField] float damage;
+    [SerializeField] float damage = 10;
     [SerializeField] float attackCooldown = 1f;
     [SerializeField] float enemyPushForce = 4f;
     [SerializeField] Collider2D attackCollider;
@@ -14,7 +14,7 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] protected Animator animator;
 
     protected bool canAttack = true;
-    protected Player player;
+    protected Gnome player;
     protected Collider2D AttackCollider => attackCollider;
     protected float AttackCooldown => attackCooldown;
 
@@ -27,7 +27,7 @@ public abstract class Weapon : MonoBehaviour
 
     private void Start()
     {
-        player = Player.Instance;
+        player = Gnome.Instance;
     }
 
 
@@ -41,7 +41,7 @@ public abstract class Weapon : MonoBehaviour
     {
         if (other.TryGetComponent(out Fish fish))
         {
-            fish.Rb2d.AddForce(Player.Instance.ArmsMovement.LookDirection * enemyPushForce, ForceMode2D.Impulse);
+            fish.Rb2d.AddForce(Gnome.Instance.ArmsMovement.LookDirection * enemyPushForce, ForceMode2D.Impulse);
         }
     }
 

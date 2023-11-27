@@ -4,41 +4,37 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-
     private Animator animator;
+    private GameInput gameInput;
 
-    private const string DAMAGED = "Damaged";
-    private const string DEAD = "Dead";
+
+    private const string IS_WALKING = "isWalking";
+
+
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        gameInput = GameInput.Instance;
     }
 
 
-    private void Start()
+    private bool IsWalking()
     {
-        Player.Instance.Hp.OnDamaged += PlayDamageAnimation;
-        Player.Instance.Hp.OnDead += PlayDeathAnimation;
+        return gameInput.GetPlayerNormilizedMovementInput() != Vector2.zero;
     }
 
 
-    private void OnDisable()
+    private void Update()
     {
-        Player.Instance.Hp.OnDamaged -= PlayDamageAnimation;
-        Player.Instance.Hp.OnDead -= PlayDeathAnimation;
-    }
-
-
-    private void PlayDamageAnimation(float notNeeded)
-    {
-        animator.SetTrigger(DAMAGED);
-    }
-
-
-    private void PlayDeathAnimation()
-    {
-        animator.SetTrigger(DEAD);
+        if (IsWalking())
+        {
+            animator.SetBool(IS_WALKING, IsWalking());
+        }
+        else
+        {
+            animator.SetBool(IS_WALKING, IsWalking());
+        }
     }
 
 }

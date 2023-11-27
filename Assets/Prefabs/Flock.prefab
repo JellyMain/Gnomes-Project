@@ -44,11 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c552954e884c9d04ea741db452262401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agentPrefab: {fileID: 2525691210910244067, guid: f5bf6a6ecbecac049b1396d6f5bafe47, type: 3}
-  flockBehaviour: {fileID: 11400000, guid: 3d79b5c49c8b6154b9cbb57206fac8d1, type: 2}
-  startingCount: 206
+  agentPrefab: {fileID: 9208512985610460875, guid: f5bf6a6ecbecac049b1396d6f5bafe47, type: 3}
+  agentDensity: 0.08
+  flockRadius: 20
+  startingCount: 74
   driveFactor: 3
   maxSpeed: 2
-  neighborRadius: 1.5
-  avoidanceRadiusMultiplier: 0.5
-  agentDensity: 0.08

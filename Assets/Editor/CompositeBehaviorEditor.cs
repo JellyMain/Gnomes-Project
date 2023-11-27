@@ -30,7 +30,7 @@ public class CompositeBehaviorEditor : Editor
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(i.ToString(), GUILayout.MinWidth(60f), GUILayout.MaxWidth(60f));
-                cb.behaviors[i] = (FlockBehaviour)EditorGUILayout.ObjectField(cb.behaviors[i], typeof(FlockBehaviour), false, GUILayout.MinWidth(60f));
+                cb.behaviors[i] = (ContextBehavior)EditorGUILayout.ObjectField(cb.behaviors[i], typeof(ContextBehavior), false, GUILayout.MinWidth(60f));
                 cb.weights[i] = EditorGUILayout.FloatField(cb.weights[i], GUILayout.MinWidth(60f), GUILayout.MaxWidth(60f));
                 EditorGUILayout.EndHorizontal();
             }
@@ -60,7 +60,7 @@ public class CompositeBehaviorEditor : Editor
     private void AddBehavior(CompositeBehavior cb)
     {
         int oldCount = (cb.behaviors != null) ? cb.behaviors.Length : 0;
-        FlockBehaviour[] newBehaviors = new FlockBehaviour[oldCount + 1];
+        ContextBehavior[] newBehaviors = new ContextBehavior[oldCount + 1];
         float[] newWeights = new float[oldCount + 1];
 
         for (int i = 0; i < oldCount; i++)
@@ -84,7 +84,7 @@ public class CompositeBehaviorEditor : Editor
             cb.weights = null;
             return;
         }
-        FlockBehaviour[] newBehaviors = new FlockBehaviour[oldCount - 1];
+        ContextBehavior[] newBehaviors = new ContextBehavior[oldCount - 1];
         float[] newWeights = new float[oldCount - 1];
 
         for (int i = 0; i < oldCount - 1; i++)

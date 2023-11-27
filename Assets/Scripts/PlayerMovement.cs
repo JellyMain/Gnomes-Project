@@ -1,23 +1,22 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    [SerializeField] float lerpFactor = 5;
-    [SerializeField] GameInput gameInput;
     [SerializeField] float moveSpeed;
+    private GameInput gameInput;
     private Rigidbody2D rb2D;
+
 
     private void Awake()
     {
+        gameInput = GameInput.Instance;
         rb2D = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+
+    private void FixedUpdate()
     {
         Move();
     }
@@ -25,21 +24,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector2 moveVector = gameInput.GetNormilizedMovementInput();
-        rb2D.velocity = Vector2.Lerp(rb2D.velocity, moveVector * moveSpeed, lerpFactor * Time.deltaTime);
+        Vector2 moveVector = gameInput.GetPlayerNormilizedMovementInput();
+        rb2D.velocity = moveVector * moveSpeed;
 
-        if (moveVector != Vector2.zero)
+        if (rb2D.velocity.x > 0)
         {
-            float angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-            transform.rotation = rotation;
+            transform.localScale = new Vector3(1, 1, 1);
         }
         else
         {
-            transform.rotation = Quaternion.identity;
+            transform.localScale = new Vector3(-1, 1, 1);
         }
-
-
     }
-
 }

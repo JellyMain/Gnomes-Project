@@ -6,15 +6,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "FlockBehavior/Filter/SameFlock")]
 public class SameFlockFilter : AgentFilter
 {
-    public override List<Transform> GetFilteredAgents(FlockAgent agent, List<Transform> original)
+    public override List<Transform> GetFilteredAgents(Fish fish, List<Transform> original)
     {
         List<Transform> filtered = new List<Transform>();
 
         for (int i = 0; i < original.Count; i++)
         {
-            if (original[i].TryGetComponent(out FlockAgent flockAgent))
+            if (original[i].TryGetComponent(out Fish flockAgent))
             {
-                if (agent.Flock == flockAgent.Flock)
+                if (fish.Flock == flockAgent.Flock)
                 {
                     filtered.Add(flockAgent.transform);
                 }

@@ -15,7 +15,7 @@ public class KnifeWeapon : Weapon
         {
             PushPlayer();
             animator.SetTrigger(ATTACKED);
-            ToggleAttackCollider();
+            StartAttackCooldown();
         }
     }
 
@@ -26,7 +26,7 @@ public class KnifeWeapon : Weapon
     }
 
 
-    private async void ToggleAttackCollider()
+    private async void StartAttackCooldown()
     {
         AttackCollider.enabled = true;
         canAttack = false;

@@ -25,7 +25,7 @@ public class CinemachineShake : MonoBehaviour
 
     private void OnEnable()
     {
-        Player.Instance.Hp.OnDamaged += OnDamagedShake;
+        Gnome.Instance.Hp.OnDamaged += OnDamagedShake;
     }
 
 

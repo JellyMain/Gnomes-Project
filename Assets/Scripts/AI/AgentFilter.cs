@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class AgentFilter : ScriptableObject
 {
-    public abstract List<Transform> GetFilteredAgents(FlockAgent agent, List<Transform> original);
+    public abstract List<Transform> GetFilteredAgents(Fish fish, List<Transform> original);
 }

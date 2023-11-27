@@ -16,15 +16,15 @@ public class HealthBarUI : MonoBehaviour
 
     private void OnDisable()
     {
-        Player.Instance.Hp.OnDamaged -= UpdateBarUI;
-        Player.Instance.Hp.OnHealed -= UpdateBarUI;
+        Gnome.Instance.Hp.OnDamaged -= UpdateBarUI;
+        Gnome.Instance.Hp.OnHealed -= UpdateBarUI;
     }
 
 
     private void Start()
     {
-        Player.Instance.Hp.OnDamaged += UpdateBarUI;
-        Player.Instance.Hp.OnHealed += UpdateBarUI;
+        Gnome.Instance.Hp.OnDamaged += UpdateBarUI;
+        Gnome.Instance.Hp.OnHealed += UpdateBarUI;
     }
 
 
@@ -44,7 +44,7 @@ public class HealthBarUI : MonoBehaviour
     private void UpdateBarUI(float currentHeatlh)
     {
         damageBarTimer = damageBarShrinkTimerMax;
-        float normalizedHealth = currentHeatlh / Player.Instance.Hp.MaxHealth;
+        float normalizedHealth = currentHeatlh / Gnome.Instance.Hp.MaxHealth;
         barImage.fillAmount = normalizedHealth;
     }
 }

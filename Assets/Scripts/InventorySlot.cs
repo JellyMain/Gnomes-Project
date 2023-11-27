@@ -51,8 +51,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     private void ThrowDropedItem()
     {
-        Item spawnedItem = Instantiate(item.ItemPrefab, Player.Instance.transform.position, Quaternion.identity);
-        spawnedItem.Rb2d.AddForce(Player.Instance.ArmsMovement.LookDirection * pushForce, ForceMode2D.Impulse);
+        Item spawnedItem = Instantiate(item.ItemPrefab, Gnome.Instance.transform.position, Quaternion.identity);
+        spawnedItem.Rb2d.AddForce(Gnome.Instance.ArmsMovement.LookDirection * pushForce, ForceMode2D.Impulse);
     }
 
 
