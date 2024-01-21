@@ -12,7 +12,10 @@ public class AlignmentBehavior : ContextBehavior
 
         foreach (Transform contextAgent in filteredContext)
         {
-            alignmentPoint += (Vector2)contextAgent.transform.right;
+            if (contextAgent != null)
+            {
+                alignmentPoint += (Vector2)contextAgent.transform.right;
+            }
         }
 
         alignmentPoint /= context.Count;

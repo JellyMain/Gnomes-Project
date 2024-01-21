@@ -13,10 +13,13 @@ public class AvoidanceBehavior : ContextBehavior
 
         foreach (Transform contextAgent in filteredContext)
         {
-            if ((contextAgent.position - fish.transform.position).sqrMagnitude < fish.SquareAvoidanceRadius)
+            if (contextAgent != null)
             {
-                nAvoid++;
-                avoidancePoint += (Vector2)(fish.transform.position - contextAgent.transform.position);
+                if ((contextAgent.position - fish.transform.position).sqrMagnitude < fish.SquareAvoidanceRadius)
+                {
+                    nAvoid++;
+                    avoidancePoint += (Vector2)(fish.transform.position - contextAgent.transform.position);
+                }
             }
         }
 

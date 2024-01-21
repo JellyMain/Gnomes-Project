@@ -6,10 +6,11 @@ using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
-    public static event Action OnInventoryToggledAction;
-    public static event Action OnAttackAction;
-
+    public static event Action OnGnomeInventoryToggledAction;
+    public static event Action OnGnomeAttackAction;
+    public static event Action OnPlayerCloseUIAction;
     public static event Action OnPlayerInteractedAction;
+
 
 
     private InputActions inputActions;
@@ -61,25 +62,32 @@ public class GameInput : MonoBehaviour
         inputActions.Gnome.Disable();
         inputActions.Player.Enable();
         inputActions.Player.Interact.performed += Interact;
+        inputActions.Player.CloseUI.performed += CloseUI;
     }
 
 
 
     private void ToggleInvetnory(InputAction.CallbackContext context)
     {
-        OnInventoryToggledAction?.Invoke();
+        OnGnomeInventoryToggledAction?.Invoke();
     }
 
 
     private void Attack(InputAction.CallbackContext context)
     {
-        OnAttackAction?.Invoke();
+        OnGnomeAttackAction?.Invoke();
     }
 
 
     private void Interact(InputAction.CallbackContext context)
     {
         OnPlayerInteractedAction?.Invoke();
+    }
+
+
+    private void CloseUI(InputAction.CallbackContext context)
+    {
+        OnPlayerCloseUIAction?.Invoke();
     }
 
 

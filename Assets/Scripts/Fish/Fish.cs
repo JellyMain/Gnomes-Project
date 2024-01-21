@@ -1,15 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+
+
+public enum BehavaiorState
+{
+    Peaceful,
+    GroupMove,
+    Threat,
+    Hunting
+}
+
 
 public class Fish : MonoBehaviour
 {
     [Header("AI Settings")]
+
     [SerializeField] ContextBehavior contextBehaviour;
     [SerializeField] NonContextBehavior nonContextBehavior;
+    [SerializeField] ThreatBehavior threatenBehavior;
+    [SerializeField] HuntingBehavior huntingBehavior;
     [SerializeField] AgentFilter filter;
     [SerializeField, Range(1, 10)] float neighborRadius = 1.5f;
     [SerializeField, Range(0, 1)] float avoidanceRadiusMultiplier = 0.5f;
+    [SerializeField, Range(0.1f, 5f)] float stateSwitchCooldown = 3f;
 
     [Header("Move Settings")]
     [SerializeField, Range(1, 5)] float standartMoveSpeed = 5f;
@@ -21,22 +37,29 @@ public class Fish : MonoBehaviour
     [SerializeField] float lootItemPushForce = 5;
     [SerializeField] float maxHp = 50;
 
+    private List<BehavaiorState> posibleStates = new List<BehavaiorState>();
     private List<Transform> filteredNeighbors = new List<Transform>();
     private List<Transform> neighbors = new List<Transform>();
     private Collider2D fishCollider;
     private Flock flock;
+    private FishAnimator fishAnimator;
     private float squareNeighborRadius;
     private float avoidanceRadius;
     private float squareAvoidanceRadius;
     private Rigidbody2D rb2d;
     private HP hp;
+    private BehavaiorState behavaiorState = BehavaiorState.Peaceful;
+    private bool canMove = true;
+    private bool canSwitchState = true;
+    private float switchStateTimer = 0;
+    private float threatTimer = 0;
 
 
-    private Vector3 aPoint;
-    private Vector3 bPoint;
-    private Vector3 cPoint;
-    private Vector3 dPoint;
-    private Vector3 randomPoint;
+    public Vector2 aPoint;
+    public Vector2 bPoint;
+    public Vector2 cPoint;
+    public Vector2 dPoint;
+    public Vector2 randomPoint;
 
 
     public float SquareAvoidanceRadius => squareAvoidanceRadius;
@@ -49,10 +72,16 @@ public class Fish : MonoBehaviour
     public float StandartMoveSpeed => standartMoveSpeed;
     public float MaxMoveSpeed => maxMoveSpeed;
     public float RotationSpeed => rotationSpeed;
+    public float ThreatTimer
+    {
+        get { return threatTimer; }
+        set { threatTimer = value; }
+    }
 
 
     private void Awake()
     {
+        fishAnimator = GetComponentInChildren<FishAnimator>();
         fishCollider = GetComponent<Collider2D>();
         rb2d = GetComponent<Rigidbody2D>();
         hp = new HP(maxHp);
@@ -61,13 +90,15 @@ public class Fish : MonoBehaviour
 
     private void OnEnable()
     {
-        hp.OnDead += DropLoot;
+        hp.OnDead += Die;
+        fishAnimator.OnStartedFading += DropLoot;
     }
 
 
     private void OnDisable()
     {
-        hp.OnDead -= DropLoot;
+        hp.OnDead -= Die;
+        fishAnimator.OnStartedFading -= DropLoot;
     }
 
 
@@ -76,52 +107,78 @@ public class Fish : MonoBehaviour
         squareNeighborRadius = neighborRadius * neighborRadius;
         avoidanceRadius = neighborRadius * avoidanceRadiusMultiplier;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
+        InitStates();
     }
 
 
     private void FixedUpdate()
     {
-        Move();
+        if (!canMove) return;
+
+        switch (behavaiorState)
+        {
+            case BehavaiorState.Peaceful:
+                Move(nonContextBehavior.CalculateMove(this), standartMoveSpeed);
+                break;
+
+            case BehavaiorState.GroupMove:
+                Move(contextBehaviour.CalculateMove(this, neighbors, filteredNeighbors, flock), standartMoveSpeed);
+                break;
+
+            case BehavaiorState.Threat:
+                Move(threatenBehavior.CalculateMove(this, Gnome.Instance.transform), maxMoveSpeed);
+                break;
+
+            case BehavaiorState.Hunting:
+                Debug.Log("Hunting");
+                break;
+
+        }
+
         InvertSprite();
+
     }
 
 
     private void Update()
     {
         FindNeighbors();
-        FilterNeighbors();
-    }
 
-
-    private void Move()
-    {
-        if (!HasNeighbors())
+        if (canSwitchState == false)
         {
-            nonContextBehavior.CalculateMove(this);
-        }
-        else
-        {
-            ContextMove();
+            switchStateTimer += Time.deltaTime;
+            if (switchStateTimer >= stateSwitchCooldown)
+            {
+                canSwitchState = true;
+                switchStateTimer = 0;
+            }
         }
     }
 
 
-    public void Init(Flock flock)
+    private void Move(Vector2 moveDirection, float moveSpeed)
     {
-        this.flock = flock;
-    }
-
-
-    private void ContextMove()
-    {
-        Vector2 moveDirection = contextBehaviour.CalculateMove(this, neighbors, filteredNeighbors, flock);
-
-        rb2d.velocity = moveDirection * standartMoveSpeed;
+        rb2d.velocity = moveDirection * moveSpeed;
 
         float angle = Mathf.Atan2(rb2d.velocity.y, rb2d.velocity.x) * Mathf.Rad2Deg;
 
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotationSpeed * Time.deltaTime);
+    }
+
+
+    private void InitStates()
+    {
+        if (contextBehaviour != null) posibleStates.Add(BehavaiorState.GroupMove);
+        if (nonContextBehavior != null) posibleStates.Add(BehavaiorState.Peaceful);
+        if (threatenBehavior != null) posibleStates.Add(BehavaiorState.Threat);
+        if (huntingBehavior != null) posibleStates.Add(BehavaiorState.Hunting);
+    }
+
+
+    public void InitFlock(Flock flock)
+    {
+        this.flock = flock;
     }
 
 
@@ -138,10 +195,18 @@ public class Fish : MonoBehaviour
     }
 
 
+    private void Die()
+    {
+        canMove = false;
+        rb2d.velocity = Vector2.zero;
+        fishCollider.enabled = false;
+    }
+
+
     private void DropLoot()
     {
         Item spawnedLootItem = Instantiate(lootItem, transform.position, Quaternion.identity);
-        Vector2 randomDirection = new Vector2(Random.Range(-1, 2f), Random.Range(-1, 2f));
+        Vector2 randomDirection = new Vector2(UnityEngine.Random.Range(-1, 1f), UnityEngine.Random.Range(-1, 1f));
         spawnedLootItem.Rb2d.AddForce(randomDirection * lootItemPushForce, ForceMode2D.Impulse);
     }
 
@@ -160,12 +225,7 @@ public class Fish : MonoBehaviour
             }
         }
         neighbors = context;
-    }
 
-
-
-    private void FilterNeighbors()
-    {
         if (filter != null)
         {
             filteredNeighbors = filter.GetFilteredAgents(this, neighbors);
@@ -173,28 +233,42 @@ public class Fish : MonoBehaviour
     }
 
 
-    private bool HasNeighbors()
+    private bool HasState(BehavaiorState behavaiorState)
+    {
+        foreach (BehavaiorState state in posibleStates)
+        {
+            if (state == behavaiorState)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public bool HasNeighbors()
     {
         return (neighbors.Count != 0 && filter == null) || (filteredNeighbors.Count != 0 && filter != null);
     }
 
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void ChangeBehaviorState(BehavaiorState behavaiorState)
     {
-        if (other.TryGetComponent(out Weapon weapon))
+        if (canSwitchState && HasState(behavaiorState))
         {
-            hp.TakeDamage(weapon.Damage);
+            this.behavaiorState = behavaiorState;
+            canSwitchState = false;
         }
     }
 
 
-    public void SetDrawPoints(Vector3 aPoint, Vector3 bPoint, Vector3 cPoint, Vector3 dPoint, Vector3 randomPoint)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        this.aPoint = aPoint;
-        this.bPoint = bPoint;
-        this.cPoint = cPoint;
-        this.dPoint = dPoint;
-        this.randomPoint = randomPoint;
+        if (other.TryGetComponent(out MelleWeapon weapon))
+        {
+            hp.TakeDamage(weapon.Damage);
+            behavaiorState = BehavaiorState.Threat;
+        }
     }
 
 
@@ -205,7 +279,6 @@ public class Fish : MonoBehaviour
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, avoidanceRadius);
-
 
         Gizmos.DrawLine(aPoint, bPoint);
         Gizmos.DrawLine(bPoint, cPoint);

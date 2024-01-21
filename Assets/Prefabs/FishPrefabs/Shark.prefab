@@ -109,25 +109,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18f499f641411e44beaff35436e4517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contextBehaviour: {fileID: 11400000, guid: 9600ec4a74ede324bb845995a30ca58a, type: 2}
+  contextBehaviour: {fileID: 0}
+  nonContextBehavior: {fileID: 11400000, guid: 0079e900b204a824783d383850f8edea, type: 2}
+  threatenBehavior: {fileID: 11400000, guid: 87184ccd3eea88f4292c2d25a29b9de0, type: 2}
   filter: {fileID: 0}
   neighborRadius: 6.97
   avoidanceRadiusMultiplier: 0.5
-  standartMoveSpeed: 2
-  maxMoveSpeed: 10
+  stateSwitchCooldown: 3
+  standartMoveSpeed: 1.19
+  maxMoveSpeed: 5.75
   rotationSpeed: 1.5
   lootItem: {fileID: 8033669598853803511, guid: 340b5f3484ebc2940b34fc925d382519, type: 3}
   lootItemPushForce: 5
   maxHp: 50
+  aPoint: {x: 0, y: 0}
+  bPoint: {x: 0, y: 0}
+  cPoint: {x: 0, y: 0}
+  dPoint: {x: 0, y: 0}
+  randomPoint: {x: 0, y: 0}
   damage: 10
   attackCooldown: 1
   targetPushForce: 40
   attackCollider: {fileID: 0}
   attackRadiusMultiplier: 0.81
   bitePushForce: 40
-  searchAreaBottomWidth: 2.14
-  searchAreaUpperWidth: 17.92
-  searchAreaHeight: 17.5
 --- !u!1 &7868796861582207639
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,8 +205,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1375126743
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1004799623, guid: fb7e8f740415af74aa1e7ba22282b640, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -248,3 +253,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeTime: 2
+  delayBetweenFading: 2

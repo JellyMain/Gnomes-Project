@@ -30,6 +30,12 @@ public class CompositeBehavior : ContextBehavior
             }
         }
 
+        if (!fish.HasNeighbors())
+        {
+            fish.ChangeBehaviorState(BehavaiorState.Peaceful);
+            return Vector2.zero;
+        }
+
         return compositeMoveDirection;
 
     }

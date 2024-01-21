@@ -54,4 +54,11 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene(MAP);
     }
+
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }

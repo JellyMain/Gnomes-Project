@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpearWeapon : Weapon
+public class SpearWeapon : MelleWeapon
 {
     [SerializeField] float playerPushForce = 3;
 
@@ -15,6 +15,6 @@ public class SpearWeapon : Weapon
 
     private void PushPlayer()
     {
-        player.Rb2d.AddForce(player.ArmsMovement.LookDirection * playerPushForce, ForceMode2D.Impulse);
+        Gnome.Rb2d.AddForce(Gnome.ArmsMovement.LookDirection * playerPushForce, ForceMode2D.Impulse);
     }
 }

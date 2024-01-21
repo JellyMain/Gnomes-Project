@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1156dab26178edd48a70e27e77b935b0, type: 3}
+  m_Name: CatfishMeat
+  m_EditorClassIdentifier: 
+  itemImage: {fileID: 21300000, guid: da06caa466220044bbb44b1a13ad9f96, type: 3}
+  isStackable: 0
+  maxStackSize: 0
+  itemPrefab: {fileID: 6068930498146852116, guid: bff528c605ebbad4da89a050bff504e2, type: 3}

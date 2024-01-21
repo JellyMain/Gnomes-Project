@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class KnifeWeapon : Weapon
+public class KnifeWeapon : MelleWeapon
 {
     [SerializeField] float playerPushForce = 3;
 
@@ -22,7 +22,7 @@ public class KnifeWeapon : Weapon
 
     private void PushPlayer()
     {
-        player.Rb2d.AddForce(player.ArmsMovement.LookDirection * playerPushForce, ForceMode2D.Impulse);
+        Gnome.Rb2d.AddForce(Gnome.ArmsMovement.LookDirection * playerPushForce, ForceMode2D.Impulse);
     }
 
 

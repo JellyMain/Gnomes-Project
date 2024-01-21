@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeTime: 2
+  delayBetweenFading: 2
 --- !u!212 &1972392737369262656
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -85,10 +86,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1375126743
+  m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1331132774, guid: 106487d1e9184bf448a3a58492f07568, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,7 +97,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &390873226504056729
@@ -109,7 +110,7 @@ Animator:
   m_GameObject: {fileID: 37554158211659232}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7b1db7ed80beda841b96da36387b4136, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -169,18 +170,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contextBehaviour: {fileID: 11400000, guid: 3d79b5c49c8b6154b9cbb57206fac8d1, type: 2}
   nonContextBehavior: {fileID: 11400000, guid: 0079e900b204a824783d383850f8edea, type: 2}
+  threatenBehavior: {fileID: 11400000, guid: 87184ccd3eea88f4292c2d25a29b9de0, type: 2}
+  huntingBehavior: {fileID: 0}
   filter: {fileID: 11400000, guid: fa437148610f6be438e605e6251f612d, type: 2}
   neighborRadius: 1.5
   avoidanceRadiusMultiplier: 0.3
+  stateSwitchCooldown: 1.5
   standartMoveSpeed: 1
   maxMoveSpeed: 7.53
   rotationSpeed: 4
-  lootItem: {fileID: 8033669598853803511, guid: 340b5f3484ebc2940b34fc925d382519, type: 3}
+  lootItem: {fileID: 0}
   lootItemPushForce: 0.5
-  maxHp: 50
-  searchAreaBottomWidth: 1
-  searchAreaUpperWidth: 3
-  searchAreaHeight: 4.5
+  maxHp: 1
+  aPoint: {x: 0, y: 0}
+  bPoint: {x: 0, y: 0}
+  cPoint: {x: 0, y: 0}
+  dPoint: {x: 0, y: 0}
+  randomPoint: {x: 0, y: 0}
 --- !u!58 &7750513327104164970
 CircleCollider2D:
   m_ObjectHideFlags: 0

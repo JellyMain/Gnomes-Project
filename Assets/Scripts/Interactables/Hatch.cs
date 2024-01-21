@@ -5,38 +5,26 @@ using UnityEngine;
 public class Hatch : MonoBehaviour, IInteractable
 {
     [SerializeField] CameraSwither cameraSwither;
-    private bool isInArea = false;
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && isInArea)
-        {
-            Interact();
-        }
-    }
+    [SerializeField] BasementStairsAnimator basementStairsAnimator;
+    [SerializeField] HatchAnimator hatchAnimator;
 
 
     public void Interact()
     {
         cameraSwither.SwitchToSecondCamera();
+        hatchAnimator.StartOpenHatchAnimation();
+        basementStairsAnimator.StartWalkDownAnimation();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+
+    public void SelectItem()
     {
-        if (other.CompareTag("Player"))
-        {
-            isInArea = true;
-        }
+        hatchAnimator.SelectHatch();
     }
 
 
-    private void OnTriggerExit2D(Collider2D other)
+    public void DeselectItem()
     {
-        if (other.CompareTag("Player"))
-        {
-            isInArea = false;
-        }
+        hatchAnimator.DeselectHatch();
     }
-
 }

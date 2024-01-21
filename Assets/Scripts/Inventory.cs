@@ -5,28 +5,28 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] int inventoryCapacity;
-    [SerializeField] InventorySlot slotPrefab;
+    [SerializeField] GameInventorySlot slotPrefab;
     [SerializeField] GameObject inventroyUI;
     [SerializeField] Transform slotsContainer;
-    private List<InventorySlot> itemSlotsList;
+    private List<GameInventorySlot> itemSlotsList;
     private bool isInventoryActive = false;
 
 
     private void Awake()
     {
-        itemSlotsList = new List<InventorySlot>();
+        itemSlotsList = new List<GameInventorySlot>();
     }
 
 
     private void OnEnable()
     {
-        GameInput.OnInventoryToggledAction += ToggleInventory;
+        GameInput.OnGnomeInventoryToggledAction += ToggleInventory;
     }
 
 
     private void OnDisable()
     {
-        GameInput.OnInventoryToggledAction -= ToggleInventory;
+        GameInput.OnGnomeInventoryToggledAction -= ToggleInventory;
     }
 
 
@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < inventoryCapacity; i++)
         {
-            InventorySlot spawnedSlot = Instantiate(slotPrefab, slotsContainer);
+            GameInventorySlot spawnedSlot = Instantiate(slotPrefab, slotsContainer);
             itemSlotsList.Add(spawnedSlot);
         }
     }
@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
 
     public bool hasEmptySlots()
     {
-        foreach (InventorySlot slot in itemSlotsList)
+        foreach (GameInventorySlot slot in itemSlotsList)
         {
             if (slot.IsEmpty())
             {
@@ -62,7 +62,7 @@ public class Inventory : MonoBehaviour
 
     private void UpdateInventory()
     {
-        foreach (InventorySlot slot in itemSlotsList)
+        foreach (GameInventorySlot slot in itemSlotsList)
         {
             slot.UpdateSlot();
         }
@@ -71,7 +71,7 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(ItemSO itemToAdd)
     {
-        foreach (InventorySlot slot in itemSlotsList)
+        foreach (GameInventorySlot slot in itemSlotsList)
         {
             if (!slot.IsEmpty() && itemToAdd == slot.Item && itemToAdd.IsStackable && slot.StackCount < itemToAdd.MaxStackSize)
             {

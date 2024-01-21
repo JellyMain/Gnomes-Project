@@ -37,13 +37,13 @@ public class Gnome : MonoBehaviour
 
     private void OnEnable()
     {
-        GameInput.OnAttackAction += Attack;
+        GameInput.OnGnomeAttackAction += Attack;
     }
 
 
     private void OnDisable()
     {
-        GameInput.OnAttackAction -= Attack;
+        GameInput.OnGnomeAttackAction -= Attack;
     }
 
 

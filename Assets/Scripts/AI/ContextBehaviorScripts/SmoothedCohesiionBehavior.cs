@@ -15,7 +15,10 @@ public class SmoothedCohesiionBehavior : ContextBehavior
 
         foreach (Transform contextAgent in filteredContext)
         {
-            cohesionPoint += (Vector2)contextAgent.transform.position;
+            if (contextAgent != null)
+            {
+                cohesionPoint += (Vector2)contextAgent.transform.position;
+            }
         }
 
         cohesionPoint /= filteredContext.Count;

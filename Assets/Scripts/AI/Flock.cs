@@ -29,7 +29,7 @@ public class Flock : MonoBehaviour
 
             Fish spawnedAgent = Instantiate(agentPrefab, randomPosition, randomRotation, transform);
 
-            spawnedAgent.Init(this);
+            spawnedAgent.InitFlock(this);
 
             spawnedAgent.name = "Agent" + i;
         }

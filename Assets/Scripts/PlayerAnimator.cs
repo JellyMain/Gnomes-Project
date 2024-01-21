@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
+
     private Animator animator;
     private GameInput gameInput;
 
-
     private const string IS_WALKING = "isWalking";
+    private const string PLAYER_WALK_DOWN_STAIRS = "PlayerWalkDownStairs";
 
 
 
@@ -22,6 +23,12 @@ public class PlayerAnimator : MonoBehaviour
     private bool IsWalking()
     {
         return gameInput.GetPlayerNormilizedMovementInput() != Vector2.zero;
+    }
+
+
+    public void PlayStairsAniamation()
+    {
+        animator.Play(PLAYER_WALK_DOWN_STAIRS);
     }
 
 

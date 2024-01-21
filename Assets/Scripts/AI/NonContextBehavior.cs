@@ -4,5 +4,12 @@ using UnityEngine;
 
 public abstract class NonContextBehavior : ScriptableObject
 {
-    public abstract void CalculateMove(Fish fish);
+    protected bool hasStarted = false;
+
+    public void ResetStartingFlag()
+    {
+        hasStarted = false;
+    }
+
+    public abstract Vector2 CalculateMove(Fish fish);
 }

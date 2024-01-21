@@ -41,9 +41,42 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 7450475
+    locked: 0
+  - name: Background2
+    uniqueID: 2942490313
+    locked: 0
+  - name: Drop
+    uniqueID: 2086452863
+    locked: 0
+  - name: Fish
+    uniqueID: 1375126743
+    locked: 0
+  - name: Projectiles
+    uniqueID: 2912968937
+    locked: 0
   - name: Player
     uniqueID: 2629957569
     locked: 0
-  - name: HouseParticles
-    uniqueID: 1523765695
+  - name: LeftHand
+    uniqueID: 2857639661
+    locked: 0
+  - name: RightHand
+    uniqueID: 1553834263
+    locked: 0
+  - name: Weapons
+    uniqueID: 461031331
+    locked: 0
+  - name: Particles
+    uniqueID: 835398331
+    locked: 0
+  - name: NotEffectedByLight
+    uniqueID: 3726151867
+    locked: 0
+  - name: Furniture
+    uniqueID: 2136883187
+    locked: 0
+  - name: UI
+    uniqueID: 67173445
     locked: 0
