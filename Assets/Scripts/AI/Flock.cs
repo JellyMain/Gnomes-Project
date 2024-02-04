@@ -8,8 +8,6 @@ public class Flock : MonoBehaviour
     [SerializeField] float agentDensity = 0.08f;
     [SerializeField, Range(10, 100)] float flockRadius = 20f;
     [SerializeField, Range(20, 500)] int startingCount = 250;
-    [SerializeField, Range(1, 100)] float driveFactor = 10f;
-    [SerializeField, Range(1, 100)] float maxSpeed = 5f;
 
     public float FlockRadius => flockRadius;
 

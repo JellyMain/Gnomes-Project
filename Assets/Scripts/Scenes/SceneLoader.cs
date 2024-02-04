@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public static event Action OnBuildingEntered;
+    public static event Action OnOceanEntered;
 
     private const string MAIN_HOUSE = "MainHouse";
     private const string OCEAN = "Ocean";
@@ -53,6 +54,13 @@ public class SceneLoader : MonoBehaviour
     public void LoadMapScene()
     {
         SceneManager.LoadScene(MAP);
+    }
+
+
+    public void LoadOcean()
+    {
+        SceneManager.LoadScene(OCEAN);
+        OnOceanEntered?.Invoke();
     }
 
 

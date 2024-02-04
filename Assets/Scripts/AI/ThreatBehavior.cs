@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class ThreatBehavior : ScriptableObject
 {
-    public abstract Vector2 CalculateMove(Fish fish, Transform dangerObject);
+    public abstract Vector2 CalculateMove(Fish fish, Flock flock, List<Transform> filteredNeighbors, Transform dangerObject);
 }

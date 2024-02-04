@@ -5,13 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "HuntingBehavior/SharkHunting")]
 public class SharkHuntingBehavior : HuntingBehavior
 {
-    public override Vector2 CalculateMove(Fish fish, List<Transform> context, List<Transform> filteredContext, Flock flock)
+    public override Vector2 CalculateMove(Fish fish, Fish prey)
     {
-        Vector2 targetPoint = context[0].transform.position;
+        if (prey == null)
+        {
+            fish.ChangeBehaviorState(BehaviorState.Peaceful);
+            return Vector2.zero;
+        }
 
-        Vector2 directon = (targetPoint - (Vector2)fish.transform.position).normalized;
+        Vector2 directon = (prey.transform.position - fish.transform.position).normalized;
 
         return directon;
-
     }
 }

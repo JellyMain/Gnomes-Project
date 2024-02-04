@@ -168,20 +168,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848addb68d6a8294e8895e7a85621ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contextBehaviour: {fileID: 11400000, guid: 3d79b5c49c8b6154b9cbb57206fac8d1, type: 2}
+  fishType: 1
+  contextBehaviour: {fileID: 0}
   nonContextBehavior: {fileID: 11400000, guid: 0079e900b204a824783d383850f8edea, type: 2}
   threatenBehavior: {fileID: 11400000, guid: 87184ccd3eea88f4292c2d25a29b9de0, type: 2}
-  huntingBehavior: {fileID: 0}
   filter: {fileID: 11400000, guid: fa437148610f6be438e605e6251f612d, type: 2}
   neighborRadius: 1.5
   avoidanceRadiusMultiplier: 0.3
   stateSwitchCooldown: 3
   standartMoveSpeed: 1
-  maxMoveSpeed: 7.53
+  maxMoveSpeed: 5
   rotationSpeed: 4
   lootItem: {fileID: 4575849027855710683, guid: ef595957723f52b4fa6e7ad9326f1f0c, type: 3}
   lootItemPushForce: 0.5
-  maxHp: 1
+  maxHp: 50
   aPoint: {x: 0, y: 0}
   bPoint: {x: 0, y: 0}
   cPoint: {x: 0, y: 0}

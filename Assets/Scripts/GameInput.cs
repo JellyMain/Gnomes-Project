@@ -39,12 +39,14 @@ public class GameInput : MonoBehaviour
     private void OnEnable()
     {
         SceneLoader.OnBuildingEntered += SetPlayerActionMap;
+        SceneLoader.OnOceanEntered += SetGnomeActionMap;
     }
 
 
     private void OnDisable()
     {
         SceneLoader.OnBuildingEntered -= SetPlayerActionMap;
+        SceneLoader.OnOceanEntered -= SetGnomeActionMap;
     }
 
 

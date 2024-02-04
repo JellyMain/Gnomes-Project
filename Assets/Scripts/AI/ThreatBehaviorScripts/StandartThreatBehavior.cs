@@ -7,7 +7,7 @@ public class StandartThreatBehavior : ThreatBehavior
 {
     [SerializeField] float threatTime = 3f;
 
-    public override Vector2 CalculateMove(Fish fish, Transform dangerObject)
+    public override Vector2 CalculateMove(Fish fish, Flock flock, List<Transform> filteredNeighbors, Transform dangerObject)
     {
         Vector2 moveDirection = -(dangerObject.position - fish.transform.position).normalized;
 
@@ -15,7 +15,7 @@ public class StandartThreatBehavior : ThreatBehavior
 
         if (fish.ThreatTimer >= threatTime)
         {
-            fish.ChangeBehaviorState(BehavaiorState.Peaceful);
+            fish.ChangeBehaviorState(BehaviorState.Peaceful);
             fish.ThreatTimer = 0;
         }
 

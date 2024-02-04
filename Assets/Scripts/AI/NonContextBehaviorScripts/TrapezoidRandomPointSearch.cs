@@ -26,7 +26,7 @@ public class TrapezoidRandomPointSearch : NonContextBehavior
 
         if (fish.HasNeighbors())
         {
-            fish.ChangeBehaviorState(BehavaiorState.GroupMove);
+            fish.ChangeBehaviorState(BehaviorState.GroupMove);
             ResetStartingFlag();
         }
 

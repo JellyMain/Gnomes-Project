@@ -8,9 +8,10 @@ public class Shark : PredatorFish
     [SerializeField] float bitePushForce = 3f;
 
 
-    public override void Attack()
+    public override void Attack(Fish fish)
     {
         Rb2d.AddForce(transform.right * bitePushForce, ForceMode2D.Impulse);
+        fish.Hp.TakeDamage(damage);
     }
 
 

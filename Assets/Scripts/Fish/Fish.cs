@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Rendering.Universal;
 
 
-
-public enum BehavaiorState
+public enum BehaviorState
 {
     Peaceful,
     GroupMove,
@@ -14,14 +14,23 @@ public enum BehavaiorState
 }
 
 
+public enum FishType
+{
+    StandartFish,
+    ClownFish
+}
+
+
 public class Fish : MonoBehaviour
 {
+
     [Header("AI Settings")]
 
+    [SerializeField] FishType fishType;
     [SerializeField] ContextBehavior contextBehaviour;
     [SerializeField] NonContextBehavior nonContextBehavior;
     [SerializeField] ThreatBehavior threatenBehavior;
-    [SerializeField] HuntingBehavior huntingBehavior;
+
     [SerializeField] AgentFilter filter;
     [SerializeField, Range(1, 10)] float neighborRadius = 1.5f;
     [SerializeField, Range(0, 1)] float avoidanceRadiusMultiplier = 0.5f;
@@ -37,7 +46,7 @@ public class Fish : MonoBehaviour
     [SerializeField] float lootItemPushForce = 5;
     [SerializeField] float maxHp = 50;
 
-    private List<BehavaiorState> posibleStates = new List<BehavaiorState>();
+    private List<BehaviorState> posibleStates = new List<BehaviorState>();
     private List<Transform> filteredNeighbors = new List<Transform>();
     private List<Transform> neighbors = new List<Transform>();
     private Collider2D fishCollider;
@@ -48,11 +57,13 @@ public class Fish : MonoBehaviour
     private float squareAvoidanceRadius;
     private Rigidbody2D rb2d;
     private HP hp;
-    private BehavaiorState behavaiorState = BehavaiorState.Peaceful;
+    private BehaviorState currentBehaviorState = BehaviorState.Peaceful;
+    private Transform threatObject;
     private bool canMove = true;
     private bool canSwitchState = true;
     private float switchStateTimer = 0;
     private float threatTimer = 0;
+    private bool wasThreaten = false;
 
 
     public Vector2 aPoint;
@@ -62,6 +73,8 @@ public class Fish : MonoBehaviour
     public Vector2 randomPoint;
 
 
+    public FishType FishType => fishType;
+    public BehaviorState CurrentBehaviorState => currentBehaviorState;
     public float SquareAvoidanceRadius => squareAvoidanceRadius;
     public float AvoidanceRadius => avoidanceRadius;
     public float NeighborRadius => neighborRadius;
@@ -72,6 +85,11 @@ public class Fish : MonoBehaviour
     public float StandartMoveSpeed => standartMoveSpeed;
     public float MaxMoveSpeed => maxMoveSpeed;
     public float RotationSpeed => rotationSpeed;
+    public bool WasThreaten
+    {
+        get { return wasThreaten; }
+        set { wasThreaten = value; }
+    }
     public float ThreatTimer
     {
         get { return threatTimer; }
@@ -91,6 +109,7 @@ public class Fish : MonoBehaviour
     private void OnEnable()
     {
         hp.OnDead += Die;
+        hp.OnDamaged += GetHit;
         fishAnimator.OnStartedFading += DropLoot;
     }
 
@@ -98,11 +117,12 @@ public class Fish : MonoBehaviour
     private void OnDisable()
     {
         hp.OnDead -= Die;
+        hp.OnDamaged -= GetHit;
         fishAnimator.OnStartedFading -= DropLoot;
     }
 
 
-    private void Start()
+    protected virtual void Start()
     {
         squareNeighborRadius = neighborRadius * neighborRadius;
         avoidanceRadius = neighborRadius * avoidanceRadiusMultiplier;
@@ -111,26 +131,22 @@ public class Fish : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (!canMove) return;
 
-        switch (behavaiorState)
+        switch (currentBehaviorState)
         {
-            case BehavaiorState.Peaceful:
+            case BehaviorState.Peaceful:
                 Move(nonContextBehavior.CalculateMove(this), standartMoveSpeed);
                 break;
 
-            case BehavaiorState.GroupMove:
+            case BehaviorState.GroupMove:
                 Move(contextBehaviour.CalculateMove(this, neighbors, filteredNeighbors, flock), standartMoveSpeed);
                 break;
 
-            case BehavaiorState.Threat:
-                Move(threatenBehavior.CalculateMove(this, Gnome.Instance.transform), maxMoveSpeed);
-                break;
-
-            case BehavaiorState.Hunting:
-                Debug.Log("Hunting");
+            case BehaviorState.Threat:
+                Move(threatenBehavior.CalculateMove(this, flock, filteredNeighbors, threatObject), maxMoveSpeed);
                 break;
 
         }
@@ -140,7 +156,7 @@ public class Fish : MonoBehaviour
     }
 
 
-    private void Update()
+    protected virtual void Update()
     {
         FindNeighbors();
 
@@ -156,7 +172,7 @@ public class Fish : MonoBehaviour
     }
 
 
-    private void Move(Vector2 moveDirection, float moveSpeed)
+    protected void Move(Vector2 moveDirection, float moveSpeed)
     {
         rb2d.velocity = moveDirection * moveSpeed;
 
@@ -167,12 +183,13 @@ public class Fish : MonoBehaviour
     }
 
 
+
     private void InitStates()
     {
-        if (contextBehaviour != null) posibleStates.Add(BehavaiorState.GroupMove);
-        if (nonContextBehavior != null) posibleStates.Add(BehavaiorState.Peaceful);
-        if (threatenBehavior != null) posibleStates.Add(BehavaiorState.Threat);
-        if (huntingBehavior != null) posibleStates.Add(BehavaiorState.Hunting);
+        if (contextBehaviour != null) posibleStates.Add(BehaviorState.GroupMove);
+        if (nonContextBehavior != null) posibleStates.Add(BehaviorState.Peaceful);
+        if (threatenBehavior != null) posibleStates.Add(BehaviorState.Threat);
+        posibleStates.Add(BehaviorState.Hunting);
     }
 
 
@@ -233,9 +250,10 @@ public class Fish : MonoBehaviour
     }
 
 
-    private bool HasState(BehavaiorState behavaiorState)
+
+    private bool HasState(BehaviorState behavaiorState)
     {
-        foreach (BehavaiorState state in posibleStates)
+        foreach (BehaviorState state in posibleStates)
         {
             if (state == behavaiorState)
             {
@@ -252,13 +270,25 @@ public class Fish : MonoBehaviour
     }
 
 
-    public void ChangeBehaviorState(BehavaiorState behavaiorState)
+    public void ChangeBehaviorState(BehaviorState behavaiorState)
     {
         if (canSwitchState && HasState(behavaiorState))
         {
-            this.behavaiorState = behavaiorState;
+            currentBehaviorState = behavaiorState;
             canSwitchState = false;
         }
+    }
+
+
+    private void GetHit(float damage)
+    {
+        currentBehaviorState = BehaviorState.Threat;
+    }
+
+
+    public void SetThreatObject(Transform threatObject)
+    {
+        this.threatObject = threatObject;
     }
 
 
@@ -267,7 +297,8 @@ public class Fish : MonoBehaviour
         if (other.TryGetComponent(out MelleWeapon weapon))
         {
             hp.TakeDamage(weapon.Damage);
-            behavaiorState = BehavaiorState.Threat;
+            SetThreatObject(Gnome.Instance.transform);
+            currentBehaviorState = BehaviorState.Threat;
         }
     }
 

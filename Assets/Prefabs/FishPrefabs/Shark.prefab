@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4421322770109594576}
+  - {fileID: 6787911250099250726}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5427942460832340596
@@ -69,7 +70,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5866158595673025461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -109,16 +110,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18f499f641411e44beaff35436e4517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishType: 0
   contextBehaviour: {fileID: 0}
-  nonContextBehavior: {fileID: 11400000, guid: 0079e900b204a824783d383850f8edea, type: 2}
+  nonContextBehavior: {fileID: 11400000, guid: aa923d4874b240b42ab89e3c66e7c1c1, type: 2}
   threatenBehavior: {fileID: 11400000, guid: 87184ccd3eea88f4292c2d25a29b9de0, type: 2}
   filter: {fileID: 0}
   neighborRadius: 6.97
   avoidanceRadiusMultiplier: 0.5
-  stateSwitchCooldown: 3
+  stateSwitchCooldown: 1.1
   standartMoveSpeed: 1.19
   maxMoveSpeed: 5.75
-  rotationSpeed: 1.5
+  rotationSpeed: 4
   lootItem: {fileID: 8033669598853803511, guid: 340b5f3484ebc2940b34fc925d382519, type: 3}
   lootItemPushForce: 5
   maxHp: 50
@@ -127,11 +129,18 @@ MonoBehaviour:
   cPoint: {x: 0, y: 0}
   dPoint: {x: 0, y: 0}
   randomPoint: {x: 0, y: 0}
-  damage: 10
-  attackCooldown: 1
+  preyType: 0
+  huntingBehavior: {fileID: 11400000, guid: 24d853126cbd28b4da45bb2c52670c15, type: 2}
+  preySearchRadius: 15
+  losePreyTime: 2
+  attackRadius: 1.12
+  attackPoint: {fileID: 6787911250099250726}
+  damage: 30
+  attackCooldown: 3
   targetPushForce: 40
-  attackCollider: {fileID: 0}
-  attackRadiusMultiplier: 0.81
+  circularMovementRadius: 15
+  circularMovementTime: 10
+  circularMovementSpeed: 1
   bitePushForce: 40
 --- !u!1 &7868796861582207639
 GameObject:
@@ -206,7 +215,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1375126743
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -1004799623, guid: fb7e8f740415af74aa1e7ba22282b640, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -254,3 +263,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeTime: 2
   delayBetweenFading: 2
+--- !u!1 &7914994389709270721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6787911250099250726}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6787911250099250726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7914994389709270721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.87, y: 0.193, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2461828998828478172}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

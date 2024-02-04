@@ -32,7 +32,7 @@ public class CompositeBehavior : ContextBehavior
 
         if (!fish.HasNeighbors())
         {
-            fish.ChangeBehaviorState(BehavaiorState.Peaceful);
+            fish.ChangeBehaviorState(BehaviorState.Peaceful);
             return Vector2.zero;
         }
 

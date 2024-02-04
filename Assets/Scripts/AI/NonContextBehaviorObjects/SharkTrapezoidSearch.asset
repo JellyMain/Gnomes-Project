@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35954d3cd6ebd20489d95f8946def163, type: 3}
-  m_Name: Shark Hunting Behavior
+  m_Script: {fileID: 11500000, guid: debc1239685c14c4cb6f636b2764343e, type: 3}
+  m_Name: SharkTrapezoidSearch
   m_EditorClassIdentifier: 
+  searchAreaBottomWidth: 0.72
+  searchAreaUpperWidth: 8.4
+  searchAreaHeight: 8.28

@@ -5,13 +5,14 @@ using UnityEngine;
 public class GnomeMovement : MonoBehaviour
 {
     [SerializeField] float lerpFactor = 5;
-    [SerializeField] GameInput gameInput;
     [SerializeField] float moveSpeed;
+    private GameInput gameInput;
     private Rigidbody2D rb2D;
 
     private void Awake()
     {
         rb2D = GetComponent<Rigidbody2D>();
+        gameInput = GameInput.Instance;
     }
 
 
@@ -19,12 +20,6 @@ public class GnomeMovement : MonoBehaviour
     {
         Move();
     }
-
-
-    // private void Update()
-    // {
-    //     Move();
-    // }
 
 
     private void Move()
@@ -42,7 +37,6 @@ public class GnomeMovement : MonoBehaviour
         {
             transform.rotation = Quaternion.identity;
         }
-
 
     }
 
