@@ -46,7 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentPrefab: {fileID: 9208512985610460875, guid: f5bf6a6ecbecac049b1396d6f5bafe47, type: 3}
   agentDensity: 0.08
-  flockRadius: 20
+  flockRadius: 24.5
   startingCount: 74
-  driveFactor: 3
-  maxSpeed: 2

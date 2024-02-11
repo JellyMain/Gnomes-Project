@@ -13,8 +13,8 @@ public class SharkHuntingBehavior : HuntingBehavior
             return Vector2.zero;
         }
 
-        Vector2 directon = (prey.transform.position - fish.transform.position).normalized;
+        Vector2 direction = (prey.transform.position - fish.transform.position).normalized;
 
-        return directon;
+        return direction;
     }
 }
